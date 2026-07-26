@@ -4,7 +4,13 @@ This repository introduces a robust defense framework designed to mitigate progr
 
 To empirically validate this defense, we engineered a high-fidelity, mixed-cohort dataset (N=1,550) that isolates malicious scraping intents from benign enterprise usage, allowing our gateway to calibrate precise token-level mitigations without degrading legitimate operations.
 
-## Dataset Generation
+## Repository Structure
+
+* **`dataset_curation/`**: Synthesizes the mixed-cohort API telemetry and routing environments.
+* **`gatewaydefense/`**: Contains the core Zero-Trust gateway and token-level mitigation logic.
+* **`evaluation/`**: Scripts to benchmark the defense's effectiveness against extraction attacks.
+
+## Dataset Generation and Routing Environment Specifications
 
 To ensure the reproducibility of our KD defense evaluation, we detail the exact routing parameters, token constraints, and prompt configurations utilized to synthesize the four distinct API traffic cohorts. The base instructions were sampled from diverse datasets (TrafficLLM, GSM8K, and MBPP) and processed through our local simulated Zero-Trust gateway. The full programmatic telemetry generation is formalized in Algorithm 2.
 
