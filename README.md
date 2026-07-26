@@ -8,26 +8,27 @@ To empirically validate this defense, we engineered a high-fidelity, mixed-cohor
 
 To ensure the reproducibility of our KD defense evaluation, we detail the exact routing parameters, token constraints, and prompt configurations utilized to synthesize the four distinct API traffic cohorts. The base instructions were sampled from diverse datasets (TrafficLLM, GSM8K, and MBPP) and processed through our local simulated Zero-Trust gateway. The full programmatic telemetry generation is formalized in Algorithm 2.
 
-<hr style="border: 1px solid black; margin-bottom: 2px;">
-<strong>Algorithm 2</strong> KD Attack and Telemetry Dataset Generation
-<hr style="border: 0.5px solid black; margin-top: 2px;">
-1: <strong>Input:</strong> Raw instruction prompts $P$, Cohort proportions<br>
-2: <strong>Initialize:</strong> <em>TelemetryCollector</em> $C$<br>
-3: <strong>for each</strong> $p_i \in P$ <strong>do</strong><br>
-4: &nbsp;&nbsp;&nbsp;&nbsp;Assign $p_i$ to $Cohort \in \{\text{Human, Batch, Reasoning, Attack}\}$<br>
-5: &nbsp;&nbsp;&nbsp;&nbsp;<strong>if</strong> $Cohort == \text{Attack}$ <strong>then</strong><br>
-6: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Inject adversarial KD templates (e.g., "Think step-by-step:")<br>
-7: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Set $velocity \sim \mathcal{U}(0.8, 1.0)$, $uniformity \sim \mathcal{U}(0.8, 1.0)$, $sweep \sim \mathcal{U}(0.6, 1.0)$<br>
-8: &nbsp;&nbsp;&nbsp;&nbsp;<strong>else if</strong> $Cohort == \text{Batch}$ <strong>then</strong><br>
-9: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Set $velocity \sim \mathcal{U}(0.7, 1.0)$, $uniformity \sim \mathcal{U}(0.8, 1.0)$, $sweep \sim \mathcal{U}(0.0, 0.2)$<br>
-10: &nbsp;&nbsp;&nbsp;&nbsp;<strong>else</strong><br>
-11: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Set $velocity, uniformity \sim \mathcal{U}(0.0, 0.3)$, $sweep = 0.0$<br>
-12: &nbsp;&nbsp;&nbsp;&nbsp;<strong>end if</strong><br>
-13: &nbsp;&nbsp;&nbsp;&nbsp;Extract neural semantics: $s_{CoT}, s_{comp}, s_{template} \leftarrow \Phi_{\text{LLM}}(p_i)$<br>
-14: &nbsp;&nbsp;&nbsp;&nbsp;Append to $C$: $\{p_i, Cohort, velocity, uniformity, sweep, s_{CoT}, s_{comp}\}$<br>
-15: <strong>end for</strong><br>
-16: <strong>return</strong> $C$<br>
-<hr style="border: 0.5px solid black;">
+---
+**Algorithm 2** KD Attack and Telemetry Dataset Generation
+---
+1: **Input:** Raw instruction prompts $P$, Cohort proportions  
+2: **Initialize:** *TelemetryCollector* $C$  
+3: **for each** $p_i \in P$ **do**  
+4: &nbsp;&nbsp;&nbsp;&nbsp;Assign $p_i$ to $Cohort \in \{\text{Human, Batch, Reasoning, Attack}\}$  
+5: &nbsp;&nbsp;&nbsp;&nbsp;**if** $Cohort == \text{Attack}$ **then**  
+6: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Inject adversarial KD templates (e.g., "Think step-by-step:")  
+7: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Set $velocity \sim \mathcal{U}(0.8, 1.0)$, $uniformity \sim \mathcal{U}(0.8, 1.0)$, $sweep \sim \mathcal{U}(0.6, 1.0)$  
+8: &nbsp;&nbsp;&nbsp;&nbsp;**else if** $Cohort == \text{Batch}$ **then**  
+9: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Set $velocity \sim \mathcal{U}(0.7, 1.0)$, $uniformity \sim \mathcal{U}(0.8, 1.0)$, $sweep \sim \mathcal{U}(0.0, 0.2)$  
+10: &nbsp;&nbsp;&nbsp;&nbsp;**else**  
+11: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Set $velocity, uniformity \sim \mathcal{U}(0.0, 0.3)$, $sweep = 0.0$  
+12: &nbsp;&nbsp;&nbsp;&nbsp;**end if**  
+13: &nbsp;&nbsp;&nbsp;&nbsp;Extract neural semantics: $s_{CoT}, s_{comp}, s_{template} \leftarrow \Phi_{\text{LLM}}(p_i)$  
+14: &nbsp;&nbsp;&nbsp;&nbsp;Append to $C$: $\{p_i, Cohort, velocity, uniformity, sweep, s_{CoT}, s_{comp}\}$  
+15: **end for**  
+16: **return** $C$  
+
+---
 
 ### Traffic Cohort Breakdown
 
